@@ -125,6 +125,33 @@ describe('linkClass', () => {
         expect(subject.props.children[0].props.className).to.equal('foo-1');
         expect(subject.props.children[1].props.className).to.equal('bar-1');
       });
+      it('assigns a generated className to elements inside nested arrays', () => {
+        let subject;
+
+        subject = <div>
+          {[
+            [
+              <p key='1' styleName='foo' />,
+              <p key='2' styleName='bar' />
+            ],
+            [
+              <p key='1' styleName='foo' />,
+              <p key='2' styleName='bar' />
+            ]
+          ]}
+        </div>;
+
+        subject = linkClass(subject, {
+          bar: 'bar-1',
+          foo: 'foo-1'
+        });
+
+        expect(subject.props.children[0][0].props.className).to.equal('foo-1');
+        expect(subject.props.children[0][1].props.className).to.equal('bar-1');
+
+        expect(subject.props.children[1][0].props.className).to.equal('foo-1');
+        expect(subject.props.children[1][1].props.className).to.equal('bar-1');
+      });
       it('styleName is deleted from props', () => {
         let subject;
 
@@ -140,6 +167,22 @@ describe('linkClass', () => {
 
         expect(subject.props.children[0].props).not.to.have.property('styleName');
         expect(subject.props.children[1].props).not.to.have.property('styleName');
+      });
+      it('preserves original keys', () => {
+        let subject;
+
+        subject = <div>
+          <p key='1' styleName='foo' />
+          <p key='2' styleName='bar' />
+        </div>;
+
+        subject = linkClass(subject, {
+          bar: 'bar-1',
+          foo: 'foo-1'
+        });
+
+        expect(subject.props.children[0].key).to.equal('1');
+        expect(subject.props.children[1].key).to.equal('2');
       });
     });
     context('when multiple descendants have styleName and are iterable', () => {
