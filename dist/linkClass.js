@@ -86,14 +86,7 @@ var linkElement = function linkElement(element, styles, configuration) {
   if (_react2.default.isValidElement(children)) {
     elementShallowCopy.props.children = linkElement(_react2.default.Children.only(children), styles, configuration);
   } else if ((0, _isArray3.default)(children) || (0, _isIterable2.default)(children)) {
-    elementShallowCopy.props.children = _react2.default.Children.map(children, function (node) {
-      if (_react2.default.isValidElement(node)) {
-        // eslint-disable-next-line no-use-before-define
-        return linkElement(_react2.default.Children.only(node), styles, configuration);
-      } else {
-        return node;
-      }
-    });
+    elementShallowCopy.props.children = linkArray((0, _objectUnfreeze2.default)(children), styles, configuration);
   }
 
   (0, _forEach3.default)(restProps, function (propValue, propName) {

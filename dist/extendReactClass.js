@@ -58,11 +58,11 @@ exports.default = function (Component, defaultStyles, options) {
       if (this.props.styles || hasDefaultstyles) {
         var props = Object.assign({}, this.props);
 
-        if (this.props.styles) {
-          styles = this.props.styles;
+        if (props.styles) {
+          styles = props.styles;
         } else if (hasDefaultstyles) {
           styles = defaultStyles;
-          delete this.props.styles;
+          delete props.styles;
         }
 
         Object.defineProperty(props, 'styles', {
